@@ -1,0 +1,6 @@
+<div class="col-md-12">
+    <div class="row">
+            <button class="btn btn-primary" [disabled]="gameStarted" (click)="startGame(counter)">Start Game</button>
+            <button class="btn btn-info" (click)="stopGame()" [disabled]="!gameStarted">Stop Game</button>
+        </div>
+    </div>

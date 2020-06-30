@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <app-game-control (timerEvent)="addNewComponent($event)" ></app-game-control>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+<app-odd *ngFor="let item of oddNumbers" [numberEvent]="item"> </app-odd>
+        </div
+        ><div class="col-md-6">
+<app-even *ngFor="let item of evenNumbers" [numberEvent]="item"> </app-even>
+        </div>
+    </div>
+</div>
+            
+          
+           
+        </div>
+    </div>
+</div>
