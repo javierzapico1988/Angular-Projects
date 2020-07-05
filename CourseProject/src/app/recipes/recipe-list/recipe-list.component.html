@@ -3,9 +3,9 @@
         <button class="btn btn-success">New Recipe</button>
     </div>
 </div>
-<hr/>
+<hr />
 <div class="row">
     <div class="col-xs-12">
-        <app-recipe-item *ngFor="let recipe of recipes" [recipe]="recipe" (onRecipeSelected)="loadRecipeDetails($event)"></app-recipe-item>
+        <app-recipe-item *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe-item>
     </div>
 </div>
