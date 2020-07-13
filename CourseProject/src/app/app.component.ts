@@ -1,16 +1,16 @@
 import {
     Component, OnInit
 }
-from '@angular/core';
+    from '@angular/core';
 
-@Component({ selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.css'] }) export class AppComponent implements OnInit {
-    ngOnInit():void {
-        this.selectedPage=''
-    }
-    selectedPage: string;
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+})
 
-
-    setSelectedPage($event:string) {
-        this.selectedPage=$event;
+export class AppComponent implements OnInit {
+    title: string = "Course Project";
+    ngOnInit(): void {
     }
 }

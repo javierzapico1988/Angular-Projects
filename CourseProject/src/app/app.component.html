@@ -1,9 +1,9 @@
-<app-header (pageChanged)="setSelectedPage($event)"></app-header>
+<app-header></app-header>
 <div class="contaier">
+
     <div class="row">
         <div class="col-md-12">
-            <app-recipes *ngIf="selectedPage=='Recipes'"></app-recipes>
-            <app-shopping-list *ngIf="selectedPage=='Shopping List'"></app-shopping-list>
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
