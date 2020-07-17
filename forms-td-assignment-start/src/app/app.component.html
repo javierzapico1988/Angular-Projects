@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+
+
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
+        <label for="email">Email:</label>
+        <input type="text" class="form-control" email required ngModel name="email" #email="ngModel">
+        <span style="color:red" *ngIf="!email.valid && email.touched">Email is invalid!</span>
+        <hr>
+        <label for="subscription">Subscription</label>
+        <select class="form-control" [ngModel]="defaultSubscription" name="subscription">
+          <option *ngFor="let option of subscriptionOptions">{{option}}</option>
+        </select>
+        <hr>
+        <label for="email">Password:</label>
+        <input type="password" class="form-control" required ngModel name="password" #pass="ngModel">
+        <span style="color:red" *ngIf="!pass.valid && pass.touched">Password is invalid!</span>
+        <hr>
+        <input type="Submit" value="Submit Form" class="btn btn-success" [disabled]="!form.valid">
+
+        <span style="color:red" *ngIf="!form.valid && form.touched">Form is invalid!</span>
+
+
+      </form>
+      <div *ngIf="submitted">
+        {{formData.email}}
+        {{formData.password}}
+        {{formData.subscription}}
+
+      </div>
+
+    </div>
+  </div>
+</div>
