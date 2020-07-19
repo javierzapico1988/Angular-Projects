@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <label>Project Name</label>
+        <input type="text" formControlName="projectName" class="form-control">
+        <div class="help-block">
+          <div
+            *ngIf="!projectForm.get('projectName').valid && projectForm.get('projectName').touched && projectForm.get('projectName').errors ">
+            <span *ngIf="projectForm.get('projectName').errors['required']">Project name is required!</span>
+            <span *ngIf="projectForm.get('projectName').errors['projectNameInvalid']">Project name is invalid. Cannot
+              be
+              called test</span>
+          </div>
+
+        </div>
+        <label>Email</label>
+        <input type="text" formControlName="email" class="form-control">
+
+        <label>Status</label>
+        <select formControlName="status" class="form-control">
+          <option *ngFor="let option of availableStatuses">{{option}}</option>
+        </select>
+        <hr>
+        <input type="submit" class="btn btn-success" [disabled]="!projectForm.valid">
+
+
+
+
+      </form>
+      <!--
+          Create a Form with the following Controls and Validators
+          
+          Also implement that Validator as an async Validator (replace the other one)
+
+          Upon submitting the form, simply print the value to the console
+      -->
+    </div>
+  </div>
+</div>
