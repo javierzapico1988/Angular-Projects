@@ -43,8 +43,14 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       })
 
     }
-    this.editMode = false;
+    this.onClear()
+  }
+  onClear() {
     this.form.reset();
-
+    this.editMode = false;
+  }
+  onDelete() {
+    this.shoppingListService.deleteIngredient(this.editedItemIndex);
+    this.onClear();
   }
 }
