@@ -19,24 +19,18 @@ export class RecipeService implements OnInit {
     getRecipes() { return this.recipes };
 
     getRecipesFromServer() {
-        this.authService.user.pipe(
-            take(1)
-        )
-            .subscribe(user => {
-                this.httpclient.get<Recipe[]>(this.fireBaseURL + 'recipes.json',
-                    { params: new HttpParams().set('auth', user.token) }
-                )
-                    .pipe(map(recipes => {
-                        return recipes.map(recipe => {
-                            return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] }
-                        })
-                    })
-                    ).subscribe(retData => {
-                        this.recipes = retData;
-                        this.recipesChanged.next(this.recipes.slice());
-                    });
+        return this.httpclient.get<Recipe[]>(this.fireBaseURL + 'recipes.json')
+            .pipe(map(recipes => {
+                return recipes.map(recipe => {
+                    return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] }
+                })
             })
+            ).subscribe(retData => {
+                this.recipes = retData;
+                this.recipesChanged.next(this.recipes.slice());
+            });
     }
+
     getRecipebyIndex(index: number) {
         return this.recipes[index];
     }
