@@ -2,6 +2,7 @@ import {
     Component, OnInit
 }
     from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +11,9 @@ import {
 })
 
 export class AppComponent implements OnInit {
+    constructor(private authService: AuthService) { }
     title: string = "Course Project";
     ngOnInit(): void {
+        this.authService.autoLogin()
     }
 }

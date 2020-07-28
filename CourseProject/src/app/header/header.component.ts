@@ -34,5 +34,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     onFetchData() { this.recipeService.getRecipesFromServer() }
 
-
+    onLogOut() { this.authservice.logOut() }
 }
