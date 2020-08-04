@@ -5,6 +5,10 @@ import {
 import { RecipeService } from '../recipes/recipe.service';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { AppState } from '../app.reducer';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
+import { Logout } from '../auth/store/auth.actions';
 
 @Component(
     {
@@ -16,14 +20,16 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
     subscription: Subscription;
     isAuthenticated = false;
-    constructor(private recipeService: RecipeService, private authservice: AuthService) { }
+    constructor(private recipeService: RecipeService, private store: Store<AppState>) { }
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
     ngOnInit(): void {
-        this.subscription = this.authservice.user.subscribe(user => {
-            this.isAuthenticated = !!user;
-        })
+        this.subscription = this.store.select('auth')
+            .pipe(
+                map(authState => authState.user)).subscribe(user => {
+                    this.isAuthenticated = !!user;
+                })
     }
     public collapszed = true;
 
@@ -34,5 +40,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     onFetchData() { this.recipeService.getRecipesFromServer() }
 
-    onLogOut() { this.authservice.logOut() }
+    onLogOut() { this.store.dispatch(new Logout()) }
 }

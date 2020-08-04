@@ -1,14 +1,17 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Subject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { AuthService } from '../auth/auth.service';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { Ingredient } from '../shared/ingredient.modal';
+import { AddIngredients } from '../shopping-list/store/shopping-list.actions';
+import { AppState } from '../app.reducer';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService implements OnInit {
     private fireBaseURL = 'https://courseproject-94bd2.firebaseio.com/';
-    constructor(private httpclient: HttpClient, private authService: AuthService) { }
+    constructor(private httpclient: HttpClient, private store: Store<AppState>) { }
 
     ngOnInit(): void {
 
@@ -18,18 +21,6 @@ export class RecipeService implements OnInit {
 
     getRecipes() { return this.recipes };
 
-    getRecipesFromServer() {
-        return this.httpclient.get<Recipe[]>(this.fireBaseURL + 'recipes.json')
-            .pipe(map(recipes => {
-                return recipes.map(recipe => {
-                    return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] }
-                })
-            })
-            ).subscribe(retData => {
-                this.recipes = retData;
-                this.recipesChanged.next(this.recipes.slice());
-            });
-    }
 
     getRecipebyIndex(index: number) {
         return this.recipes[index];
@@ -48,10 +39,29 @@ export class RecipeService implements OnInit {
         this.recipesChanged.next(this.recipes.slice());
     }
 
+
+    addIngredientsFromRecipe(ingredients: Ingredient[]) {
+        this.store.dispatch(new AddIngredients(ingredients));
+    }
+
+
     saveAllRecipes(recipes: Recipe[]) {
         this.httpclient.put(this.fireBaseURL + 'recipes.json', recipes)
             .subscribe((retData) => {
                 console.log(retData);
             });
     }
+    getRecipesFromServer() {
+        return this.httpclient.get<Recipe[]>(this.fireBaseURL + 'recipes.json')
+            .pipe(map(recipes => {
+                return recipes.map(recipe => {
+                    return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] }
+                })
+            })
+            ).subscribe(retData => {
+                this.recipes = retData;
+                this.recipesChanged.next(this.recipes.slice());
+            });
+    }
+
 }
