@@ -2,13 +2,12 @@ import {
     Component, OnInit, OnDestroy
 }
     from '@angular/core';
-import { RecipeService } from '../recipes/recipe.service';
-import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { AppState } from '../app.reducer';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { Logout } from '../auth/store/auth.actions';
+import { FetchRecipes, StoreRecipes } from '../recipes/store/recipe.actions';
 
 @Component(
     {
@@ -20,7 +19,7 @@ import { Logout } from '../auth/store/auth.actions';
 export class HeaderComponent implements OnInit, OnDestroy {
     subscription: Subscription;
     isAuthenticated = false;
-    constructor(private recipeService: RecipeService, private store: Store<AppState>) { }
+    constructor(private store: Store<AppState>) { }
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
@@ -34,11 +33,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public collapszed = true;
 
     onSaveData() {
-        this.recipeService.saveAllRecipes(this.recipeService.getRecipes())
+        this.store.dispatch(new StoreRecipes());
     }
 
 
-    onFetchData() { this.recipeService.getRecipesFromServer() }
+    onFetchData() {
+        this.store.dispatch(new FetchRecipes());
+    }
 
     onLogOut() { this.store.dispatch(new Logout()) }
 }
